@@ -25,9 +25,7 @@ count = 0
 for game in data["currentPageResults"]:
     timestamp = datetime.datetime.utcfromtimestamp((int(game["createdAt"]))/1000.0)
     date = timestamp.strftime("%d_%b_%y")
-#    filenames[game["id"]] = (game["players"]["white"]["userId"] + "_vs_" + game["players"]["black"]["userId"] + "_" + date + "_" + game["id"] + ".pgn")
-    print(game["players"]["white"]["userId"] + "_vs_" + game["players"]["black"]["userId"] + "_" + date + "_" + game["id"] + ".pgn")
-
+    filenames[game["id"]] = (game["players"]["white"]["userId"] + "_vs_" + game["players"]["black"]["userId"] + "_" + date + "_" + game["id"] + ".pgn")
 
 print(filenames)
 
