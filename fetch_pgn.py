@@ -23,9 +23,13 @@ dir_contents = os.listdir(target_dir)
 count = 0
 
 for game in data["currentPageResults"]:
-    timestamp = datetime.datetime.utcfromtimestamp((int(game["createdAt"]))/1000.0)
+    timestamp = datetime.datetime.utcfromtimestamp((int(game["createdAt"]))/1000.0) # this should be in a function
     date = timestamp.strftime("%d_%b_%y")
-    filenames[game["id"]] = (game["players"]["white"]["userId"] + "_vs_" + game["players"]["black"]["userId"] + "_" + date + "_" + game["id"] + ".pgn")
+    if "userId" in game["players"]["black"]:
+        black = game["players"]["black"]["userId"]
+    else:
+        black = "stockfish"
+    filenames[game["id"]] = (game["players"]["white"]["userId"] + "_vs_" + black + "_" + date + "_" + game["id"] + ".pgn")
 
 print(filenames)
 
