@@ -11,18 +11,18 @@ def make_arguments():
     args = parser.parse_args()
     return args
 
-def create_dir():
+def create_dir():                           # make directory ~/lichess_pgns/<username>, if it doesn't already exist
     if not os.path.exists(target_dir):
         os.makedirs(target_dir)
 
 def fetch_games_data(username, number):
     games_url = "https://en.lichess.org/api/user/" + username + "/games?nb=" + str(number) + "&with_moves=1"
-    games_data = requests.get(games_url).text
+    games_data = requests.get(games_url).text       # fetch data as string
     games_data = json.loads(games_data)               # reload games_data with json parser to enable access as python dictionary
     return games_data
 
 def convert_timestamp(timestamp):
-    in_seconds = (int(timestamp))/1000.0
+    in_seconds = (int(timestamp))/1000.0    # convert 
     utc = datetime.datetime.utcfromtimestamp(in_seconds)
     date = utc.strftime("%d_%b_%y")
     return date
