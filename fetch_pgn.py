@@ -17,7 +17,7 @@ def make_arguments():
     return args
 
 
-def create_dir():
+def create_dir(target_dir):
     # make directory ~/lichess_pgns/<username>, if it doesn't already exist
     if not os.path.exists(target_dir):
         os.makedirs(target_dir)
@@ -67,6 +67,7 @@ def write_pgn(filenames, filename, target_dir, pgn):
 
 
 target_dir = "lichess_pgns/" + make_arguments().username + "/"
+create_dir(target_dir)
 games_data = fetch_games_data(make_arguments().username, make_arguments().num)
 filenames = make_filenames(games_data)
 
