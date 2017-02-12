@@ -49,7 +49,8 @@ def make_filenames(games_data):
         else:
             black = "stockfish"
         filenames[game["id"]] = (game["players"]["white"]["userId"] + "_vs_" +
-                                 black + "_" + date + "_" + game["id"] + ".pgn")
+                                 black + "_" + date + "_" + game["id"] + 
+                                 ".pgn")
     return filenames
 
 
@@ -77,6 +78,6 @@ for filename in filenames:
     if filenames[filename] not in dir_contents:
         pgn = fetch_pgn(filename)
         write_pgn(filenames, filename, target_dir, pgn)
-    count = count + 1
+        count = count + 1
 print("\nFetched " + str(count) + " files")
     
