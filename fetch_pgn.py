@@ -13,12 +13,21 @@ def make_arguments():
     parser.add_argument("num", type=int, nargs="?", default=200, help="Number "
                         "of pgn files to fetch (most recent first). Defaults "
                         "to 200")
+    parser.add_argument("-d", "--directory", help="Specify where pgn files "
+                        "should be saved")
     args = parser.parse_args()
     return args
 
 
+def choose_target_dir():
+    if make_arguments().directory:
+        target_dir = make_arguments().directory
+    else:
+        target_dir = "lichess_pgns/" + make_arguments().username + "/"
+    return target_dir
+
 def create_dir(target_dir):
-    # make directory ~/lichess_pgns/<username>, if it doesn't already exist
+    # make directory ./lichess_pgns/<username>, if it doesn't already exist
     if not os.path.exists(target_dir):
         os.makedirs(target_dir)
 
@@ -70,8 +79,7 @@ def write_pgn(filenames, filename, target_dir, pgn):
     with open(path, "w+") as f:
         f.write(pgn)
 
-
-target_dir = "lichess_pgns/" + make_arguments().username + "/"
+target_dir = choose_target_dir()
 create_dir(target_dir)
 games_data = fetch_games_data(make_arguments().username, make_arguments().num)
 filenames = make_filenames(games_data)
