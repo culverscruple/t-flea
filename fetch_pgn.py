@@ -44,11 +44,15 @@ def make_filenames(games_data):
     for game in games_data["currentPageResults"]:
         date = convert_timestamp(game["createdAt"])
         # Games vs AI have a blank "userId" entry
-        if "userId" in game["players"]["black"]:
+        if ("userId" in game["players"]["white"] and "userId" in 
+                game["players"]["black"]):
+            white = game["players"]["white"]["userId"]
             black = game["players"]["black"]["userId"]
-        else:
+        elif not "userId" in game["players"]["white"]:
+            white = "stockfish"
+        elif not "userId" in game["players"]["black"]:
             black = "stockfish"
-        filenames[game["id"]] = (game["players"]["white"]["userId"] + "_vs_" +
+        filenames[game["id"]] = (white + "_vs_" +
                                  black + "_" + date + "_" + game["id"] + 
                                  ".pgn")
     return filenames
@@ -78,6 +82,6 @@ for filename in filenames:
     if filenames[filename] not in dir_contents:
         pgn = fetch_pgn(filename)
         write_pgn(filenames, filename, target_dir, pgn)
-        count = count + 1
+    count = count + 1
 print("\nFetched " + str(count) + " files")
     
