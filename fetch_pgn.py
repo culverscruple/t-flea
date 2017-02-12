@@ -1,4 +1,5 @@
 import argparse
+import sys
 import os
 import requests
 import json
@@ -37,7 +38,12 @@ def fetch_games_data(username, number):
                  str(number) + "&with_moves=1")
     games_data = requests.get(games_url).text  # fetch data as string
     # reload games_data with json parser to enable access as python dictionary
-    games_data = json.loads(games_data)               
+    try:
+        games_data = json.loads(games_data)               
+    except ValueError:
+        print("JSON ValueError. Please confirm your username is entered " 
+              "correctly")
+        sys.exit(1)
     return games_data
 
 
